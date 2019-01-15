@@ -1,14 +1,11 @@
-const metronomeDOM = $("#metronome");
-const title = document.querySelector("h1");
-let counter = 0;
 var metronome;
-
-const keyDOM = $("#key");
 const availableKeys = ["C major", "C minor"];
-let availableKeysHTML = availableKeys.map(
-  key => `<option value="${key}">${key}</option>`
-);
-keyDOM.html(availableKeysHTML.join());
+
+const keySelectorInDOM = $("#key");
+let availableKeysHTML = availableKeys
+  .map(key => `<option value="${key}">${key}</option>`)
+  .join();
+keySelectorInDOM.html(availableKeysHTML);
 
 function bpmToMilliseconds(bpm) {
   return Math.round(60000 / bpm);
@@ -92,17 +89,18 @@ function notesInTheKeyOf(key) {
 
 function startMetronome() {
   const userEnteredBpm = document.querySelector("#speed").value;
-  const beat = bpmToMilliseconds(userEnteredBpm);
-  const noteDuration = beat * 4;
+  const clickSpeed = bpmToMilliseconds(userEnteredBpm);
+  const noteDuration = clickSpeed * 4;
   const userEnteredKey = document.querySelector("#key").value;
-  counter = 1;
+  const title = document.querySelector("h1");
+  let beat = 1;
   metronome = setInterval(() => {
     if (title.style.color != "rgb(0, 255, 0)") {
       title.style.color = "rgb(0, 255, 0)";
     } else {
       title.style.color = "rgb(255, 255, 255)";
     }
-    switch (counter) {
+    switch (beat) {
       case 1:
         $("#note")
           .html(
@@ -110,15 +108,15 @@ function startMetronome() {
           )
           .fadeIn(100)
           .fadeOut(Math.round(noteDuration * 0.95));
-        counter++;
+        beat++;
         break;
       case 4:
-        counter = 1;
+        beat = 1;
         break;
       default:
-        counter++;
+        beat++;
     }
-  }, beat);
+  }, clickSpeed);
 }
 
 function stopMetronome() {

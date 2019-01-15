@@ -21,6 +21,7 @@ select {
   color: #ffffff;
   font-size: 45px;
   border: 1px solid #ffffff;
+  width: 200px;
 }
 
 div {
